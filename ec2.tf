@@ -1,4 +1,4 @@
-#key pair
+#key pair file
 resource aws_key_pair my_key{
     key_name = "terra-key-shivaniuser"
     public_key = file("terra-key-shivaniuser.pub")

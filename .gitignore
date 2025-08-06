@@ -1,0 +1,15 @@
+
+# Terraform-specific files/folders
+.terraform/
+*.tfstate
+*.tfstate.backup
+crash.log
+*.log
+
+# Terraform SSH keys (example for your case)
+terra-key-shivaniuser
+terra-key-shivaniuser.pub
+
+# Local environment files
+*.zip
+*.exe

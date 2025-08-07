@@ -59,10 +59,18 @@ resource aws_security_group my_sg{
 
 #ec2
 resource aws_instance "my-instance"{
+    #count = 2
+    for_each = tomap({
+      terraform-server-medium = "t2.medium",
+      terraform-server-micro = "t2.micro"
+    }) #meta-argument for creating multiple instances with different types
+    
+    depends_on = [ aws_security_group.my_sg, aws_key_pair.my_key, aws_default_vpc.default ]
+
     key_name = aws_key_pair.my_key.key_name
     security_groups = [aws_security_group.my_sg.name]
     ami = var.ec2_ami_id #ubuntu
-    instance_type = var.aws_instance_type
+    instance_type = each.value                #var.aws_instance_type
     user_data = file("scripts.sh")
 
     root_block_device {
@@ -71,7 +79,7 @@ resource aws_instance "my-instance"{
     }
 
     tags = {
-        Name = "terraform-server-ec2"
+        Name = each.key   #"terraform-server-ec2"
     }
 
 }
